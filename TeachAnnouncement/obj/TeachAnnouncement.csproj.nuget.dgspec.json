@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "\\\\Mac\\Home\\Downloads\\ASP.NET\\aspnet-mvc-anno-backstage-main\\TeachAnnouncement\\TeachAnnouncement.csproj": {}
+    "C:\\test\\TeachAnnouncement\\TeachAnnouncement.csproj": {}
   },
   "projects": {
-    "\\\\Mac\\Home\\Downloads\\ASP.NET\\aspnet-mvc-anno-backstage-main\\TeachAnnouncement\\TeachAnnouncement.csproj": {
+    "C:\\test\\TeachAnnouncement\\TeachAnnouncement.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "\\\\Mac\\Home\\Downloads\\ASP.NET\\aspnet-mvc-anno-backstage-main\\TeachAnnouncement\\TeachAnnouncement.csproj",
+        "projectUniqueName": "C:\\test\\TeachAnnouncement\\TeachAnnouncement.csproj",
         "projectName": "TeachAnnouncement",
-        "projectPath": "\\\\Mac\\Home\\Downloads\\ASP.NET\\aspnet-mvc-anno-backstage-main\\TeachAnnouncement\\TeachAnnouncement.csproj",
+        "projectPath": "C:\\test\\TeachAnnouncement\\TeachAnnouncement.csproj",
         "packagesPath": "C:\\Users\\yu-tinglin\\.nuget\\packages\\",
-        "outputPath": "\\\\Mac\\Home\\Downloads\\ASP.NET\\aspnet-mvc-anno-backstage-main\\TeachAnnouncement\\obj\\",
+        "outputPath": "C:\\test\\TeachAnnouncement\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\yu-tinglin\\AppData\\Roaming\\NuGet\\NuGet.Config",
