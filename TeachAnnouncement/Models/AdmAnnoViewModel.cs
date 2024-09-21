@@ -6,10 +6,13 @@ namespace TeachAnnouncement.Models
     {
         public class QueryIn
         {
-            public string AnnoSubject { get; set; }
-            public string AnnoStatus { get; set; }
-
-            public PaginationModel pagination { get; set; }
+			public string site { get; set; }
+			public string AnnoSubject { get; set; }
+			public string StartDate { get; set; }
+			public string EndDate { get; set; }
+			public string AnnoStatus { get; set; }
+			public List<string> specs { get; set; }
+			public PaginationModel pagination { get; set; }
         }
 
         public class QueryOut
@@ -21,12 +24,16 @@ namespace TeachAnnouncement.Models
         public class AnnoModel
         {
             public string Pkey { get; set; }
-            public string AnnoDate { get; set; }
+			public string site { get; set; }
+			public string StartDate { get; set; }
+			public string EndDate { get; set; }
+			public string AnnoDate { get; set; }
             public string AnnoSubject { get; set; }
             public string AnnoContent { get; set; }
             public string AnnoStatus { get; set; }
             public string AnnoStatusName { get; set; }
-        }
+			public List<string> specs { get; set; }
+		}
 
         /// <summary>
         // 分頁 Model

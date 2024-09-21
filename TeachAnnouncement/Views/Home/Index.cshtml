@@ -1,24 +1,96 @@
-﻿<div id="app">
+﻿<style>
+
+	html,
+
+	body {
+
+		font-size: 9pt;
+
+	}
+
+
+
+	[v-cloak] {
+
+		display: none;
+
+	}
+
+
+
+	fieldset {
+
+		width: 320px;
+
+		padding: 12px;
+
+	}
+
+
+
+		fieldset div {
+			background-color: #eee;
+		}
+
+</style>
+
+
+
+<div id="app" >
 	<div id="QueryPanel" class="card">
 		<div class="card-header">
-			公告維護
+			ChartID資料異動歷史紀錄查詢
 		</div>
 		<div class="card-body">
-			<div class="row">
+			<div class="row align-items-center">
 				<div class="col-auto">
-					<label for="queryFormAnnoSubject" class="col-form-label">公告主題</label>
+					<input class="form-check-input" type="radio" id="site" name="site" value="P14" v-model="queryForm.site" checked>
+					<label class="form-check-label" for="site">P14</label>
+				</div>
+				<div class="col-auto">
+					<input class="form-check-input" type="radio" id="site" name="site" value="P58" v-model="queryForm.site">
+					<label class="form-check-label" for="site">P58</label>
+				</div>
+
+				<div class="col-auto">
+					<label for="queryFormAnnoSubject" class="col-form-label">ChartID</label>
 				</div>
 				<div class="col-auto">
 					<input type="text" id="queryFormAnnoSubject" class="form-control" v-model="queryForm.AnnoSubject">
 				</div>
 				<div class="col-auto">
-					<label for="queryFormAnnoStatus" class="col-form-label">公告狀態</label>
+					<label for="queryFormStartDate" class="col-form-label">查詢日期</label>
 				</div>
 				<div class="col-auto">
-					<select class="form-select" id="queryFormAnnoStatus" v-model="queryForm.AnnoStatus">
-						<option value="1">顯示</option>
-						<option value="0">隱藏</option>
-					</select>
+					<input type="text" id="queryFormStartDate" class="form-control" v-model="queryForm.StartDate">
+				</div>			
+				<div class="col-auto">
+					<label for="queryFormEndDate" class="col-form-label">結束日期</label>
+				</div>
+				<div class="col-auto">
+					<input type="text" id="queryFormEndDate" class="form-control" v-model="queryForm.EndDate">
+				</div>
+			</div>
+			<div class="row align-items-center">
+				<div class="form-check">
+
+
+
+					<input class="form-check-input" type="checkbox" id="spec1" value="Warning Line" checked v-model="queryForm.specs">
+
+					<label class="form-check-label" for="spec1">Warning Line</label>
+				</div>
+				<div class="form-check">
+
+					<input class="form-check-input" type="checkbox" id="spec2" value="Temp Spe" checked  v-model="queryForm.specs" >
+
+					<label class="form-check-label" for="spec2">Temp Spec</label>
+				</div>
+				<div class="form-check">
+
+					<input class="form-check-input" type="checkbox" id="spec3" value="Gard Band" disabled v-model="queryForm.specs" >
+
+					<label class="form-check-label" for="spec3">Gard Band</label>
 				</div>
 			</div>
 		</div>
@@ -159,10 +231,16 @@
 	<script>
 		const app = Vue.createApp({
 			data() {
+			
 				return {
 					queryForm: {
-						AnnoSubject: ''
+						site:'P14'
+						,AnnoSubject: ''
 						, AnnoStatus: '1'
+						, StartDate:''
+						, EndDate:''
+						, specs: []
+
 					}
 					, addForm: {
 						AnnoDate: ''
@@ -183,7 +261,7 @@
 							pages: [], pageNo: '1', pageSize: '10', totalCount: ''
 						}
 						, headerCheck: false
-					}
+					} 
 				}
 			}
 			, methods: {
@@ -196,8 +274,13 @@
 
 					// 組合表單資料
 					var postData = {};
+
+					postData['site'] = self.queryForm.site;
 					postData['AnnoSubject'] = self.queryForm.AnnoSubject;
 					postData['AnnoStatus'] = self.queryForm.AnnoStatus;
+					postData['StartDate'] = self.queryForm.StartDate;
+					postData['EndDate'] = self.queryForm.EndDate;
+					postData['specs'] = self.queryForm.specs;
 
 					// 附加分頁
 					postData['pagination'] = JSON.parse(JSON.stringify(self.grid.pagination));
@@ -406,6 +489,29 @@
 
 		$(function () {
 			//Date picker
+			$('#queryFormStartDate').datepicker({
+				autoclose: true
+				, format: "yyyy/mm/dd"
+			});
+			$("#queryFormStartDate").datepicker().on("blur", function (e) {
+				vm.$data.queryForm.StartDate = $(this).val();
+			});
+			$("#queryFormStartDate").datepicker().on("change", function (e) {
+				vm.$data.queryForm.StartDate = $(this).val();
+			});
+
+			$('#queryFormEndDate').datepicker({
+				autoclose: true
+				, format: "yyyy/mm/dd"
+			});
+			$("#queryFormEndDate").datepicker().on("blur", function (e) {
+				vm.$data.queryForm.EndDate = $(this).val();
+			});
+			$("#queryFormEndDate").datepicker().on("change", function (e) {
+				vm.$data.queryForm.EndDate = $(this).val();
+			});
+
+
 			$('#addFormAnnoDate').datepicker({
 				autoclose: true
 				, format: "yyyy/mm/dd"
