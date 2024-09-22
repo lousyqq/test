@@ -1,45 +1,7 @@
-﻿<style>
-
-	html,
-
-	body {
-
-		font-size: 9pt;
-
-	}
-
-
-
-	[v-cloak] {
-
-		display: none;
-
-	}
-
-
-
-	fieldset {
-
-		width: 320px;
-
-		padding: 12px;
-
-	}
-
-
-
-		fieldset div {
-			background-color: #eee;
-		}
-
-</style>
-
-
-
-<div id="app" >
+﻿<div id="app" >
 	<div id="QueryPanel" class="card">
 		<div class="card-header">
-			ChartID資料異動歷史紀錄查詢
+			
 		</div>
 		<div class="card-body">
 			<div class="row align-items-center">
@@ -51,7 +13,6 @@
 					<input class="form-check-input" type="radio" id="site" name="site" value="P58" v-model="queryForm.site">
 					<label class="form-check-label" for="site">P58</label>
 				</div>
-
 				<div class="col-auto">
 					<label for="queryFormAnnoSubject" class="col-form-label">ChartID</label>
 				</div>
@@ -72,160 +33,122 @@
 				</div>
 			</div>
 			<div class="row align-items-center">
-				<div class="form-check">
-
-
-
-					<input class="form-check-input" type="checkbox" id="spec1" value="Warning Line" checked v-model="queryForm.specs">
-
+				<div class="col-auto">
+					<input class="form-check-input" type="checkbox" id="spec1" value="Warning Line" v-model="queryForm.specs" checked>
 					<label class="form-check-label" for="spec1">Warning Line</label>
 				</div>
-				<div class="form-check">
-
-					<input class="form-check-input" type="checkbox" id="spec2" value="Temp Spe" checked  v-model="queryForm.specs" >
-
+				<div class="col-auto">
+					<input class="form-check-input" type="checkbox" id="spec2" value="Temp Spe" v-model="queryForm.specs" checked>
 					<label class="form-check-label" for="spec2">Temp Spec</label>
 				</div>
-				<div class="form-check">
-
+				<div class="col-auto">
 					<input class="form-check-input" type="checkbox" id="spec3" value="Gard Band" disabled v-model="queryForm.specs" >
-
 					<label class="form-check-label" for="spec3">Gard Band</label>
 				</div>
 			</div>
 		</div>
 		<div class="card-header">
 			<button type="button" class="btn btn-primary" v-on:click="Query()">查詢</button> &nbsp;
-			<button type="button" class="btn btn-primary" v-on:click="OpenAddPanel()">新增</button>
 		</div>
 		<div class="card-body">
 			<table class="table">
 				<thead>
 					<tr>
-						<th style="width: 30px;text-align:center;"><input type="checkbox" v-model="grid.headerCheck" v-on:change="HeaderCheck()" /></th>
-						<th style="width: 30px;text-align:center;"></th>
-						<th>公告日期</th>
-						<th>公告主題</th>
-						<th>公告內容</th>
-						<th>公告狀態</th>
+						<th style="text-align:center;"></th>
+						<th>CHIPID</th>
+						<th>SEQ_ID</th>
+						@*<th>公告狀態</th>*@
+						<th>UpdateTime</th>
+						<th>SPEC</th>
+						<th>詳細資訊</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr v-for="(item, index) in grid.datas">
-						<td align="center"><input type="checkbox" v-model="item.selCheck" /></td>
-						<td><a v-on:click="EditMode(index)" style="cursor: pointer;">編</a></td>
-						<td>{{item.AnnoDate}}</td>
+						<th style="text-align:center;"></th>
 						<td>{{item.AnnoSubject}}</td>
 						<td>{{item.AnnoContent}}</td>
-						<td>{{item.AnnoStatusName}}</td>
+						@*<td>{{item.AnnoStatusName}}</td>*@
+						<td>{{item.AnnoDate}}</td>
+						<td>Warning Line</td>
+						<td><a v-on:click="EditMode(index)" style="cursor: pointer;">chick me</a></td>
+
 					</tr>
 				</tbody>
 			</table>
-			<div style="float:left">
-				<input type="button" class="btn btn btn-danger btn-sm" value="勾選刪除" v-on:click="DelCheck()" />
-			</div>
 			<vue-pagination v-bind:pagination="grid.pagination" v-on:requery="reQuery"></vue-pagination>
-		</div>
-	</div>
-
-	<div id="AddPanel" class="card" style="display:none;">
-		<div class="card-header">
-			新增公告
-			<div style="float:right;">
-				<button type="button" class="btn btn-secondary btn-sm" v-on:click="BackPage()">回前頁</button>
-			</div>
-		</div>
-		<div class="card-body">
-			<div class="row">
-				<div class="col-auto">
-					<label for="addFormAnnoDate" class="col-form-label">公告日期</label>
-				</div>
-				<div class="col-auto">
-					<input type="text" id="addFormAnnoDate" class="form-control" v-model="addForm.AnnoDate">
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-auto">
-					<label for="addFormAnnoSubject" class="col-form-label">公告主題</label>
-				</div>
-				<div class="col-auto">
-					<input type="text" id="addFormAnnoSubject" class="form-control" v-model="addForm.AnnoSubject">
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-auto">
-					<label for="addFormAnnoContent" class="col-form-label">公告內容</label>
-				</div>
-				<div class="col-auto">
-					<textarea id="addFormAnnoContent" class="form-control" v-model="addForm.AnnoContent"></textarea>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-auto">
-					<label for="addFormAnnoStatus" class="col-form-label">公告狀態</label>
-				</div>
-				<div class="col-auto">
-					<select class="form-select" id="addFormAnnoStatus" v-model="addForm.AnnoStatus">
-						<option value="1">顯示</option>
-						<option value="0">隱藏</option>
-					</select>
-				</div>
-			</div>
-		</div>
-		<div class="card-footer">
-			<button type="button" class="btn btn-primary" v-on:click="AddSave()">儲存</button>
 		</div>
 	</div>
 
 	<div id="EditPanel" class="card" style="display:none;">
 		<div class="card-header">
-			修改公告
+			詳細資訊
 			<div style="float:right;">
 				<button type="button" class="btn btn-secondary btn-sm" v-on:click="BackPage()">回前頁</button>
 			</div>
 		</div>
 		<div class="card-body">
 			<div class="row">
-				<div class="col-auto">
-					<label for="editFormAnnoDate" class="col-form-label">公告日期</label>
+				<div class="col-sm-2">
+					<label for="editFormAnnoDate" class="col-form-label">UpdateTime</label>
 				</div>
 				<div class="col-auto">
-					<input type="text" id="editFormAnnoDate" class="form-control" v-model="editForm.AnnoDate">
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-auto">
-					<label for="editFormAnnoSubject" class="col-form-label">公告主題</label>
-				</div>
-				<div class="col-auto">
-					<input type="text" id="editFormAnnoSubject" class="form-control" v-model="editForm.AnnoSubject">
+					<input type="text" id="editFormAnnoDate" class="form-control" v-model="editForm.AnnoDate" disabled>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-auto">
-					<label for="editFormAnnoContent" class="col-form-label">公告內容</label>
+				<div class="col-sm-2">
+					<label for="editFormAnnoSubject" class="col-form-label">CHIPID</label>
 				</div>
 				<div class="col-auto">
-					<textarea id="editFormAnnoContent" class="form-control" v-model="editForm.AnnoContent"></textarea>
+					<input type="text" id="editFormAnnoSubject" class="form-control" v-model="editForm.AnnoSubject" disabled>
 				</div>
 			</div>
+			<div class="row">
+				<div class="col-sm-2">
+					<label for="editFormAnnoContent" class="col-form-label">SEQ_ID</label>
+				</div>
+				<div class="col-auto">
+					<input type="text" id="editFormAnnoContent" class="form-control" v-model="editForm.AnnoContent" disabled>
+				</div>
+			</div>
+			@*
 			<div class="row">
 				<div class="col-auto">
 					<label for="editFormAnnoStatus" class="col-form-label">公告狀態</label>
 				</div>
+				
 				<div class="col-auto">
 					<select class="form-select" id="editFormAnnoStatus" v-model="editForm.AnnoStatus">
 						<option value="1">顯示</option>
 						<option value="0">隱藏</option>
 					</select>
 				</div>
+            </div>
+			*@
+			<div class="row">
+				 <div class="col-sm-2">
+					<label for="editFormAnnoContent" class="col-form-label">new_target</label>
+				</div>
+				<div class="col-auto">
+					<input type="text" id="editFormAnnoContent" class="form-control" v-model="editForm.new_target" disabled>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2">
+					<label for="editFormAnnoContent" class="col-form-label">new_OL</label>
+				</div>
+				<div class="col-auto">
+					<input type="text" id="editFormAnnoContent" class="form-control" v-model="editForm.new_OL" disabled>
+				</div>
 			</div>
 		</div>
-		<div class="card-footer">
-			<button type="button" class="btn btn-primary" v-on:click="EditSave()">儲存</button>
-		</div>
+		@*
+		 <div class="card-footer">
+		 	<button type="button" class="btn btn-primary" v-on:click="EditSave()">儲存</button>
+		 </div>
+		*@
 	</div>
-
 </div>
 @section scripts {
 	<script>
@@ -240,7 +163,6 @@
 						, StartDate:''
 						, EndDate:''
 						, specs: []
-
 					}
 					, addForm: {
 						AnnoDate: ''
@@ -254,6 +176,8 @@
 						, AnnoSubject: ''
 						, AnnoContent: ''
 						, AnnoStatus: '1'
+						, new_target:''
+						, new_OL:''
 					}
 					, grid: {
 						datas: []
@@ -420,6 +344,8 @@
 					self.editForm.AnnoSubject = self.grid.datas[index].AnnoSubject;
 					self.editForm.AnnoContent = self.grid.datas[index].AnnoContent;
 					self.editForm.AnnoStatus = self.grid.datas[index].AnnoStatus;
+					self.editForm.new_target = self.grid.datas[index].new_target;
+					self.editForm.new_OL = self.grid.datas[index].new_OL;
 
 					$('#QueryPanel').hide();
 					$('#EditPanel').show();

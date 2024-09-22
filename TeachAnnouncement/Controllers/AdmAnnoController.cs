@@ -50,13 +50,9 @@ namespace TeachAnnouncement.Controllers
   
             using (var cn = new SqlConnection(connStr))
             {
-
-              
-
-
                 // 主要查詢 SQL
                 string sql = @"SELECT Pkey, CONVERT(varchar(12) , AnnoDate, 111 ) as AnnoDate, AnnoSubject, AnnoContent, AnnoStatus, Case AnnoStatus when '1' then '顯示' when '0' then '隱藏' end As AnnoStatusName
-                                FROM Announcement 
+                                , new_target,new_OL FROM Announcement 
                                 WHERE 1=1 ";
 
                 if (!string.IsNullOrEmpty(inModel.AnnoSubject))
